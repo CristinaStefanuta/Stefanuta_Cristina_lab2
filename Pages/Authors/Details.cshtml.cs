@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Stefanuta_Cristina_lab2.Data;
-using Stefanuta_Cristina_lab2.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Models;
 
-namespace Stefanuta_Cristina_lab2.Pages.Books
+namespace Stefanuta_Cristina_lab2.Pages.Authors
 {
     public class DetailsModel : PageModel
     {
@@ -20,7 +19,7 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
             _context = context;
         }
 
-        public Book Book { get; set; } = default!;
+        public Author Author { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,16 +28,15 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
                 return NotFound();
             }
 
-            var book = await _context.Book.Include(b => b.Author).Include(b => b.Publisher).FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            var author = await _context.Author.FirstOrDefaultAsync(m => m.ID == id);
+            if (author == null)
             {
                 return NotFound();
             }
             else
             {
-                Book = book;
+                Author = author;
             }
-
             return Page();
         }
     }

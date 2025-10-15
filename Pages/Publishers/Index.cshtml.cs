@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Stefanuta_Cristina_lab2.Data;
 using Stefanuta_Cristina_lab2.Models;
 
-namespace Stefanuta_Cristina_lab2.Pages.Books
+namespace Stefanuta_Cristina_lab2.Pages.Publishers
 {
     public class IndexModel : PageModel
     {
@@ -19,14 +19,11 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
             _context = context;
         }
 
-        public IList<Book> Book { get;set; } = default!;
+        public IList<Publisher> Publisher { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Book = await _context.Book.
-                Include(b => b.Author).
-                Include(b => b.Publisher).
-                ToListAsync();
+            Publisher = await _context.Publisher.ToListAsync();
         }
     }
 }

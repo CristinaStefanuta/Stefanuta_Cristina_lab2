@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Stefanuta_Cristina_lab2.Data;
 using Stefanuta_Cristina_lab2.Models;
 
-namespace Stefanuta_Cristina_lab2.Pages.Books
+namespace Stefanuta_Cristina_lab2.Pages.Publishers
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; } = default!;
+        public Publisher Publisher { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,23 +30,12 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
                 return NotFound();
             }
 
-            var book =  await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+            var publisher =  await _context.Publisher.FirstOrDefaultAsync(m => m.ID == id);
+            if (publisher == null)
             {
                 return NotFound();
             }
-            Book = book;
-            ViewData["AuthorID"] = new SelectList(
-                _context.Author
-                .OrderBy(a => a.FirstName) 
-                .Select(a => new {
-                     ID = a.ID,
-                FullName = a.FirstName + " " + a.LastName
-                }),
-                "ID",
-                "FullName" 
-            );
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID","PublisherName");
+            Publisher = publisher;
             return Page();
         }
 
@@ -59,7 +48,7 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
                 return Page();
             }
 
-            _context.Attach(Book).State = EntityState.Modified;
+            _context.Attach(Publisher).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +56,7 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BookExists(Book.ID))
+                if (!PublisherExists(Publisher.ID))
                 {
                     return NotFound();
                 }
@@ -80,9 +69,9 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
             return RedirectToPage("./Index");
         }
 
-        private bool BookExists(int id)
+        private bool PublisherExists(int id)
         {
-            return _context.Book.Any(e => e.ID == id);
+            return _context.Publisher.Any(e => e.ID == id);
         }
     }
 }

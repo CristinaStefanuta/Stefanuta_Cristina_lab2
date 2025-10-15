@@ -15,5 +15,7 @@ namespace Stefanuta_Cristina_lab2.Data
         }
 
         public DbSet<Stefanuta_Cristina_lab2.Models.Book> Book { get; set; } = default!;
+        public DbSet<Stefanuta_Cristina_lab2.Models.Publisher> Publisher { get; set; } = default!;
+        public DbSet<Stefanuta_Cristina_lab2.Models.Author> Author { get; set; } = default!;
     }
 }

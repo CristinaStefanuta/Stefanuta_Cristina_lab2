@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Stefanuta_Cristina_lab2.Data;
 using Stefanuta_Cristina_lab2.Models;
 
-namespace Stefanuta_Cristina_lab2.Pages.Books
+namespace Stefanuta_Cristina_lab2.Pages.Authors
 {
     public class CreateModel : PageModel
     {
@@ -21,21 +21,11 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
 
         public IActionResult OnGet()
         {
-            ViewData["AuthorID"] = new SelectList(
-                _context.Author
-            .OrderBy(a => a.FirstName) 
-            .Select(a => new {
-                 ID = a.ID,
-                FullName = a.FirstName + " " + a.LastName}),
-            "ID",
-            "FullName" 
-            );
-            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID","PublisherName");
             return Page();
         }
 
         [BindProperty]
-        public Book Book { get; set; } = default!;
+        public Author Author { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -45,7 +35,7 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
                 return Page();
             }
 
-            _context.Book.Add(Book);
+            _context.Author.Add(Author);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
