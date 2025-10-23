@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stefanuta_Cristina_lab2.Data;
@@ -11,9 +12,11 @@ using Stefanuta_Cristina_lab2.Data;
 namespace Stefanuta_Cristina_lab2.Migrations
 {
     [DbContext(typeof(Stefanuta_Cristina_lab2Context))]
-    partial class Stefanuta_Cristina_lab2ContextModelSnapshot : ModelSnapshot
+    [Migration("20251021085310_BookCategory")]
+    partial class BookCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

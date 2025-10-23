@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Stefanuta_Cristina_lab2.Data;
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<Stefanuta_Cristina_lab2Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Stefanuta_Cristina_lab2Context") ?? throw new InvalidOperationException("Connection string 'Stefanuta_Cristina_lab2Context' not found.")));
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Stefanuta_Cristina_lab2Context>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Stefanuta_Cristina_lab2Context") ?? throw new InvalidOperationException("Connection string 'Stefanuta_Cristina_lab2Context' not found.")));
 
 var app = builder.Build();
 

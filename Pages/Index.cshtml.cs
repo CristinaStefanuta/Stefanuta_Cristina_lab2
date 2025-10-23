@@ -12,9 +12,9 @@ namespace Stefanuta_Cristina_lab2.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            return RedirectPermanent("~/Books");
         }
     }
 }
