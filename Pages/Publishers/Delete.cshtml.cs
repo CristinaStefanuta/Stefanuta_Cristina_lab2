@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
 
 namespace Stefanuta_Cristina_lab2.Pages.Publishers
 {
     public class DeleteModel : PageModel
     {
-        private readonly Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context _context;
+        private readonly LibraryIdentityContext _context;
 
-        public DeleteModel(Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context context)
+        public DeleteModel(LibraryIdentityContext context)
         {
             _context = context;
         }
-
+        
         [BindProperty]
         public Publisher Publisher { get; set; } = default!;
 

@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data; 
+
 namespace Stefanuta_Cristina_lab2.Models;
 
 public class BookCategoriesPageModel:PageModel
 {
     public List<AssignedCategoryData> AssignedCategoriesDataList;
 
-    public void PopulateAssignedCategoriesData(Stefanuta_Cristina_lab2Context context, Book book)
+    public void PopulateAssignedCategoriesData(LibraryIdentityContext context, Book book)
     {
         var allCategories = context.Category;
         var bookCategories = new HashSet<int>(
@@ -23,7 +24,7 @@ public class BookCategoriesPageModel:PageModel
         }
     }
 
-    public void UpdateBookCategories(Stefanuta_Cristina_lab2Context context, string[] selectedCategories,
+    public void UpdateBookCategories(LibraryIdentityContext context, string[] selectedCategories,
         Book bookToUpdate)
     {
         if (selectedCategories == null)

@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
 
 namespace Stefanuta_Cristina_lab2.Pages.Categories
 {
     public class EditModel : PageModel
     {
-        private readonly Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context _context;
+        private readonly LibraryIdentityContext _context;
 
-        public EditModel(Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context context)
+        public EditModel(LibraryIdentityContext context)
         {
             _context = context;
         }

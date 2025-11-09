@@ -1,15 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Stefanuta_Cristina_lab2.Data;
+using Microsoft.EntityFrameworkCore;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<Stefanuta_Cristina_lab2Context>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Stefanuta_Cristina_lab2Context") ?? throw new InvalidOperationException("Connection string 'Stefanuta_Cristina_lab2Context' not found.")));
+
+var connectionString = builder.Configuration.GetConnectionString("LibraryDbConnection") ?? throw new InvalidOperationException("Connection string 'LibraryDbConnection' not found.");
+
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+    options.UseNpgsql(connectionString));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<LibraryIdentityContext>();
 
 var app = builder.Build();
 
@@ -17,7 +23,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -26,6 +31,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// 4. AM ADĂUGAT UseAuthentication(). Este OBLIGATORIU.
+// Trebuie să fie MEREU înainte de UseAuthorization().
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

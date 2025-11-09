@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
 
 namespace Stefanuta_Cristina_lab2.Pages.Authors
 {
     public class CreateModel : PageModel
     {
-        private readonly Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context _context;
+        private readonly LibraryIdentityContext _context;
 
-        public CreateModel(Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context context)
+        public CreateModel(LibraryIdentityContext context)
         {
             _context = context;
         }

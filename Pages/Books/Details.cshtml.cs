@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Stefanuta_Cristina_lab2.Data;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace Stefanuta_Cristina_lab2.Pages.Books
 {
     public class DetailsModel : PageModel
     {
-        private readonly Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context _context;
+        private readonly LibraryIdentityContext _context;
 
-        public DetailsModel(Stefanuta_Cristina_lab2.Data.Stefanuta_Cristina_lab2Context context)
+        public DetailsModel(LibraryIdentityContext context)
         {
             _context = context;
         }
