@@ -28,14 +28,15 @@ namespace Stefanuta_Cristina_lab2.Pages.Borrowings
                 return NotFound();
             }
 
-            var borrowing = await _context.Borrowing.FirstOrDefaultAsync(m => m.ID == id);
-            if (borrowing == null)
+            Borrowing = await _context.Borrowing
+                .Include(b => b.Member) 
+                .Include(b => b.Book)
+                .Include(b => b.Book.Author)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Borrowing == null)
             {
                 return NotFound();
-            }
-            else
-            {
-                Borrowing = borrowing;
             }
             return Page();
         }
