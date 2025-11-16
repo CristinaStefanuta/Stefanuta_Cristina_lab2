@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Stefanuta_Cristina_lab2.Areas.Identity.Data;
+using Stefanuta_Cristina_lab2.Models;
 
 namespace Stefanuta_Cristina_lab2.Areas.Identity.Pages.Account
 {
@@ -29,13 +31,15 @@ namespace Stefanuta_Cristina_lab2.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly LibraryIdentityContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            LibraryIdentityContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +47,7 @@ namespace Stefanuta_Cristina_lab2.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -94,6 +99,18 @@ namespace Stefanuta_Cristina_lab2.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    
+                    var member = new Member
+                    {
+                        FirstName = null,
+                        LastName = null,
+                        Email = Input.Email,
+                        Address = null,
+                        Phone = null
+                    };
+
+                    _context.Member.Add(member);
+                    await _context.SaveChangesAsync();
                     
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
