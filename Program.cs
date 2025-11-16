@@ -51,4 +51,39 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+using var scope = app.Services.CreateScope();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+string[] roles = ["Admin", "User"];
+
+foreach (var role in roles)
+{
+    if (!await roleManager.RoleExistsAsync(role))
+    {
+        await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+
+var adminEmail = "admin@gmail.com";
+var adminPassword = "Admin123!";
+
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+var adminUser = await userManager.FindByEmailAsync(adminEmail);
+if (adminUser == null)
+{
+    adminUser = new IdentityUser
+    {
+        UserName = adminEmail,
+        Email = adminEmail,
+        EmailConfirmed = true 
+    };
+    await userManager.CreateAsync(adminUser, adminPassword);
+}
+
+if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+{
+    await userManager.AddToRoleAsync(adminUser, "Admin");
+}
+
 app.Run();
