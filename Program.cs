@@ -6,7 +6,21 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireRole("Admin"));
+});
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Books");
+    options.Conventions.AllowAnonymousToPage("/Books/Index");
+    options.Conventions.AllowAnonymousToPage("/Books/Details");
+    options.Conventions.AuthorizeFolder("/Members", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Publishers", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Categories", "AdminPolicy");
+});
 
 var connectionString = builder.Configuration.GetConnectionString("LibraryDbConnection") ?? throw new InvalidOperationException("Connection string 'LibraryDbConnection' not found.");
 
@@ -15,6 +29,7 @@ builder.Services.AddDbContext<LibraryIdentityContext>(options =>
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => 
         options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<LibraryIdentityContext>();
 
 var app = builder.Build();
@@ -31,8 +46,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 4. AM ADĂUGAT UseAuthentication(). Este OBLIGATORIU.
-// Trebuie să fie MEREU înainte de UseAuthorization().
 app.UseAuthentication();
 app.UseAuthorization();
 

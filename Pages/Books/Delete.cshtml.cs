@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Stefanuta_Cristina_lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly LibraryIdentityContext _context;

@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Stefanuta_Cristina_lab2.Areas.Identity.Data;
 using Stefanuta_Cristina_lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Stefanuta_Cristina_lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : BookCategoriesPageModel
     {
         private readonly LibraryIdentityContext _context;
